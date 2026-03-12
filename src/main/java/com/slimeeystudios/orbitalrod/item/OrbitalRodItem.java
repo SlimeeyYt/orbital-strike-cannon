@@ -1,5 +1,4 @@
 package com.slimeeystudios.orbitalrod.item;
-
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
@@ -19,14 +18,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class OrbitalRodItem extends FishingRodItem {
-    private static final int USE_COOLDOWN_TICKS = 9 * 20;
+    private static final int USE_COOLDOWN_TICKS = 108;
     private static final double MAX_TARGET_DISTANCE = 108.0D;
     private static final double BASE_SPAWN_HEIGHT = 108.0D;
     private static final int LAYER_COUNT = 9;
     private static final int CIRCUMFERENCE_COUNT = 9;
     private static final int TNT_PER_CIRCUMFERENCE = 48;
-    private static final double BASE_CIRCUMFERENCE_RADIUS = 24.0D;
-    private static final double CIRCUMFERENCE_RADIUS_STEP = 12.0D;
+    private static final double BASE_CIRCUMFERENCE_RADIUS = 12.0D;
+    private static final double CIRCUMFERENCE_RADIUS_STEP = 24.0D;
     private static final double LAYER_VERTICAL_STEP = 9.0D;
     private static final int TNT_FUSE_TICKS = 96;
     private static final int EXTRA_EXPLOSION_DELAY_TICKS = 108;
@@ -86,6 +85,7 @@ public class OrbitalRodItem extends FishingRodItem {
             double spawnY = targetCenter.y + BASE_SPAWN_HEIGHT + (layer * LAYER_VERTICAL_STEP);
             double centerFallSpeed = -0.17D - (layer * 0.004D);
 
+            // Straight center column
             TntEntity centerTnt = new TntEntity(world, targetCenter.x, spawnY, targetCenter.z, owner);
             centerTnt.setFuse(TNT_FUSE_TICKS + EXTRA_EXPLOSION_DELAY_TICKS);
             centerTnt.setVelocity(0.0D, centerFallSpeed, 0.0D);
@@ -95,15 +95,15 @@ public class OrbitalRodItem extends FishingRodItem {
                 double radius = BASE_CIRCUMFERENCE_RADIUS + (ring * CIRCUMFERENCE_RADIUS_STEP);
 
                 for (int index = 0; index < TNT_PER_CIRCUMFERENCE; index++) {
-                    double angle = (Math.PI * 2.0D * index) / TNT_PER_CIRCUMFERENCE;
-                    double spawnX = targetCenter.x + Math.cos(angle) * radius;
-                    double spawnZ = targetCenter.z + Math.sin(angle) * radius;
-                    double orbitalAngle = angle + (layer * 0.35D) + (ring * 0.2D);
-                    double tangentialX = -Math.sin(orbitalAngle) * 0.08D;
-                    double tangentialZ = Math.cos(orbitalAngle) * 0.08D;
-                    double inwardX = (targetCenter.x - spawnX) * 0.015D;
-                    double inwardZ = (targetCenter.z - spawnZ) * 0.015D;
-                    double fallSpeed = -0.17D - (layer * 0.004D);
+                    double angle   = (Math.PI * 2.0D * index) / TNT_PER_CIRCUMFERENCE;
+                    double spawnX  = targetCenter.x + Math.cos(angle) * radius;
+                    double spawnZ  = targetCenter.z + Math.sin(angle) * radius;
+                    double orbAngle    = angle + (layer * 0.35D) + (ring * 0.2D);
+                    double tangentialX = -Math.sin(orbAngle) * 0.08D;
+                    double tangentialZ =  Math.cos(orbAngle) * 0.08D;
+                    double inwardX     = (targetCenter.x - spawnX) * 0.015D;
+                    double inwardZ     = (targetCenter.z - spawnZ) * 0.015D;
+                    double fallSpeed   = -0.17D - (layer * 0.004D);
 
                     TntEntity tnt = new TntEntity(world, spawnX, spawnY, spawnZ, owner);
                     tnt.setFuse(TNT_FUSE_TICKS + EXTRA_EXPLOSION_DELAY_TICKS);

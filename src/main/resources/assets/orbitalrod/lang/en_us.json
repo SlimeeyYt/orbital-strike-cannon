@@ -1,4 +1,8 @@
 {
-  "item.orbitalrod.orbital_tnt_rod": "Orbital TNT Rod"
+  "item.orbitalrod.orbital_tnt_rod": "Orbital TNT Rod",
+
+
+  "advancements.orbitalrod.orbital.title": "Orbital Strike",
+  "advancements.orbitalrod.orbital.description": "Obtain a Nether Star and discover the Orbital TNT Rod recipe"
 }
 

@@ -1,19 +1,33 @@
 # OrbitalRod
 
-`OrbitalRod` is a Fabric mod for **Minecraft 1.20.1** on **Java 17**.
+`OrbitalRod` is a Fabric mod for **Minecraft 1.20.1** on **Java 17** by **Slimeey Studios**.
 
-## Included content
+## Features
 - `Orbital TNT Rod` custom item
-- Block raycast up to 100 blocks on right-click
-- ~1056 primed TNT entities spawned in stacked circular rings
-- Server-side strike logic
-- Example crafting recipe
+- Always-enchanted glint on the rod
+- Orbital strike with **3 large circumferences** plus a **straight center stack**
+- 9-second cooldown per successful use
+- 1 durability consumed per successful use
+- Anvil repair supported with `minecraft:nether_star`
+- Recipe unlock via the **Orbital Strike** advancement / recipe book reward
 
-## Notes
-- The item falls back to normal `FishingRodItem` behavior when you are not targeting a block.
-- The orbital strike is intentionally extreme and may lag or crash weaker servers/worlds.
+## Crafting Recipe
+Arrange items in a crafting table as:
 
-## Testing environment setup
+```text
+[ Nether Star ] [   TNT   ] [ Nether Star ]
+[    TNT     ] [Fishing Rod] [    TNT     ]
+[    (air)   ] [ Nether Star] [   (air)   ]
+```
+
+- `N` = `minecraft:nether_star`
+- `T` = `minecraft:tnt`
+- `R` = `minecraft:fishing_rod`
+
+## Advancement
+- **Orbital Strike**: obtain a Nether Star to unlock the Orbital TNT Rod recipe.
+
+## Development Setup
 ```powershell
 cd "D:\Slimeey Studios\orbital-strike"
 $env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
@@ -21,14 +35,14 @@ $env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
 .\gradlew.bat configureLaunch configureClientLaunch
 ```
 
-## Run Minecraft client (dev)
+## Run Minecraft Client (dev)
 ```powershell
 cd "D:\Slimeey Studios\orbital-strike"
 $env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
 .\gradlew.bat runClient
 ```
 
-## Run Minecraft server (dev)
+## Run Minecraft Server (dev)
 ```powershell
 cd "D:\Slimeey Studios\orbital-strike"
 $env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
