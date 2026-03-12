@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "TTT",
+    "NTN",
     "TRT",
-    "S  "
+    " N "
   ],
   "key": {
+    "N": {
+      "item": "minecraft:nether_star"
+    },
     "T": {
       "item": "minecraft:tnt"
     },
     "R": {
       "item": "minecraft:fishing_rod"
-    },
-    "S": {
-      "item": "minecraft:nether_star"
     }
   },
   "result": {

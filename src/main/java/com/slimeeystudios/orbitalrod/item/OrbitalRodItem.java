@@ -18,20 +18,24 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class OrbitalRodItem extends FishingRodItem {
-    private static final double MAX_TARGET_DISTANCE = 100.0D;
-    private static final double BASE_SPAWN_HEIGHT = 100.0D;
-    private static final int LAYER_COUNT = 6;
-    private static final int RINGS_PER_LAYER = 8;
-    private static final int BASE_TNT_PER_RING = 8;
-    private static final int TNT_PER_RING_STEP = 4;
-    private static final double BASE_RING_RADIUS = 1.5D;
-    private static final double RING_RADIUS_STEP = 1.75D;
-    private static final double LAYER_VERTICAL_STEP = 4.0D;
-    private static final int TNT_FUSE_TICKS = 80;
-    private static final int EXTRA_EXPLOSION_DELAY_TICKS = 140;
+    private static final double MAX_TARGET_DISTANCE = 108.0D;
+    private static final double BASE_SPAWN_HEIGHT = 108.0D;
+    private static final int LAYER_COUNT = 9;
+    private static final int CIRCUMFERENCE_COUNT = 5;
+    private static final int TNT_PER_CIRCUMFERENCE = 48;
+    private static final double BASE_CIRCUMFERENCE_RADIUS = 12.0D;
+    private static final double CIRCUMFERENCE_RADIUS_STEP = 24.0D;
+    private static final double LAYER_VERTICAL_STEP = 9.0D;
+    private static final int TNT_FUSE_TICKS = 96;
+    private static final int EXTRA_EXPLOSION_DELAY_TICKS = 108;
 
     public OrbitalRodItem(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public boolean hasGlint(ItemStack stack) {
+        return true;
     }
 
     @Override
@@ -65,23 +69,30 @@ public class OrbitalRodItem extends FishingRodItem {
     private void spawnOrbitalStrike(ServerWorld world, Vec3d targetCenter, PlayerEntity owner) {
         for (int layer = 0; layer < LAYER_COUNT; layer++) {
             double spawnY = targetCenter.y + BASE_SPAWN_HEIGHT + (layer * LAYER_VERTICAL_STEP);
+            double centerFallSpeed = -0.17D - (layer * 0.004D);
 
-            for (int ring = 0; ring < RINGS_PER_LAYER; ring++) {
-                double radius = BASE_RING_RADIUS + (ring * RING_RADIUS_STEP);
-                int tntPerRing = BASE_TNT_PER_RING + (ring * TNT_PER_RING_STEP);
+            TntEntity centerTnt = new TntEntity(world, targetCenter.x, spawnY, targetCenter.z, owner);
+            centerTnt.setFuse(TNT_FUSE_TICKS + EXTRA_EXPLOSION_DELAY_TICKS);
+            centerTnt.setVelocity(0.0D, centerFallSpeed, 0.0D);
+            world.spawnEntity(centerTnt);
 
-                for (int index = 0; index < tntPerRing; index++) {
-                    double angle = (Math.PI * 2.0D * index) / tntPerRing;
+            for (int ring = 0; ring < CIRCUMFERENCE_COUNT; ring++) {
+                double radius = BASE_CIRCUMFERENCE_RADIUS + (ring * CIRCUMFERENCE_RADIUS_STEP);
+
+                for (int index = 0; index < TNT_PER_CIRCUMFERENCE; index++) {
+                    double angle = (Math.PI * 2.0D * index) / TNT_PER_CIRCUMFERENCE;
                     double spawnX = targetCenter.x + Math.cos(angle) * radius;
                     double spawnZ = targetCenter.z + Math.sin(angle) * radius;
+                    double orbitalAngle = angle + (layer * 0.35D) + (ring * 0.2D);
+                    double tangentialX = -Math.sin(orbitalAngle) * 0.08D;
+                    double tangentialZ = Math.cos(orbitalAngle) * 0.08D;
+                    double inwardX = (targetCenter.x - spawnX) * 0.015D;
+                    double inwardZ = (targetCenter.z - spawnZ) * 0.015D;
+                    double fallSpeed = -0.17D - (layer * 0.004D);
 
                     TntEntity tnt = new TntEntity(world, spawnX, spawnY, spawnZ, owner);
                     tnt.setFuse(TNT_FUSE_TICKS + EXTRA_EXPLOSION_DELAY_TICKS);
-                    tnt.setVelocity(
-                            world.random.nextGaussian() * 0.012D,
-                            -0.12D - (world.random.nextDouble() * 0.03D),
-                            world.random.nextGaussian() * 0.012D
-                    );
+                    tnt.setVelocity(tangentialX + inwardX, fallSpeed, tangentialZ + inwardZ);
                     world.spawnEntity(tnt);
                 }
             }
