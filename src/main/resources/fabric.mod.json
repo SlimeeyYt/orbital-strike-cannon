@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "orbitalrod",
+  "version": "${version}",
+  "name": "OrbitalRod",
+  "description": "Adds the Orbital TNT Rod, a fishing rod that calls in orbital TNT strikes.",
+  "authors": [
+    "Slimeey Studios"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.slimeeystudios.orbitalrod.OrbitalRodMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
+

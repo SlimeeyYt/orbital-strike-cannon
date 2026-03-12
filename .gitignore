@@ -1,0 +1,26 @@
+# Gradle
+/.gradle/
+/build/
+**/build/
+
+# JetBrains / IntelliJ
+/.idea/
+*.iml
+*.ipr
+*.iws
+/out/
+
+# Fabric dev runtime output
+/run/
+logs/
+crash-reports/
+
+# Java / JVM noise
+*.log
+hs_err_pid*
+replay_pid*
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
