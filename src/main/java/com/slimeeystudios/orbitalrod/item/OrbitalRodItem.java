@@ -4,6 +4,7 @@ import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -18,13 +19,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class OrbitalRodItem extends FishingRodItem {
+    private static final int USE_COOLDOWN_TICKS = 9 * 20;
     private static final double MAX_TARGET_DISTANCE = 108.0D;
     private static final double BASE_SPAWN_HEIGHT = 108.0D;
     private static final int LAYER_COUNT = 9;
-    private static final int CIRCUMFERENCE_COUNT = 5;
+    private static final int CIRCUMFERENCE_COUNT = 9;
     private static final int TNT_PER_CIRCUMFERENCE = 48;
-    private static final double BASE_CIRCUMFERENCE_RADIUS = 12.0D;
-    private static final double CIRCUMFERENCE_RADIUS_STEP = 24.0D;
+    private static final double BASE_CIRCUMFERENCE_RADIUS = 24.0D;
+    private static final double CIRCUMFERENCE_RADIUS_STEP = 12.0D;
     private static final double LAYER_VERTICAL_STEP = 9.0D;
     private static final int TNT_FUSE_TICKS = 96;
     private static final int EXTRA_EXPLOSION_DELAY_TICKS = 108;
@@ -41,6 +43,11 @@ public class OrbitalRodItem extends FishingRodItem {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
+
+        if (user.getItemCooldownManager().isCoolingDown(this)) {
+            return TypedActionResult.fail(stack);
+        }
+
         HitResult hitResult = user.raycast(MAX_TARGET_DISTANCE, 0.0F, false);
 
         if (hitResult.getType() != HitResult.Type.BLOCK) {
@@ -55,10 +62,18 @@ public class OrbitalRodItem extends FishingRodItem {
             spawnActivationParticles(serverWorld, targetCenter);
             spawnOrbitalStrike(serverWorld, targetCenter, user);
             serverWorld.playSound(null, targetPos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.2F, 0.6F);
+
+            stack.damage(1, user, p -> p.sendToolBreakStatus(hand));
         }
 
+        user.getItemCooldownManager().set(this, USE_COOLDOWN_TICKS);
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return TypedActionResult.success(stack, world.isClient());
+    }
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return ingredient.isOf(Items.NETHER_STAR) || super.canRepair(stack, ingredient);
     }
 
     private void spawnActivationParticles(ServerWorld world, Vec3d targetCenter) {
