@@ -2,6 +2,14 @@
 
 `OrbitalRod` is a Fabric mod for **Minecraft 1.20.1** on **Java 17** by **Slimeey Studios**.
 
+## Dependencies
+- `fabric-loader` (required)
+- `fabric-api` (required)
+
+This project currently targets:
+- `net.fabricmc:fabric-loader:0.16.10`
+- `net.fabricmc.fabric-api:fabric-api:0.92.5+1.20.1`
+
 ## Features
 - `Orbital TNT Rod` custom item
 - Always-enchanted glint on the rod
