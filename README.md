@@ -35,25 +35,4 @@ Arrange items in a crafting table as:
 ## Advancement
 - **Orbital Strike**: obtain a Nether Star to unlock the Orbital TNT Rod recipe.
 
-## Development Setup
-```powershell
-cd "D:\Slimeey Studios\orbital-strike"
-$env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
-.\gradlew.bat build
-.\gradlew.bat configureLaunch configureClientLaunch
-```
 
-## Run Minecraft Client (dev)
-```powershell
-cd "D:\Slimeey Studios\orbital-strike"
-$env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
-.\gradlew.bat runClient
-```
-
-## Run Minecraft Server (dev)
-```powershell
-cd "D:\Slimeey Studios\orbital-strike"
-$env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
-Set-Content -Path ".\run\server\eula.txt" -Value "eula=true"
-.\gradlew.bat runServer
-```
