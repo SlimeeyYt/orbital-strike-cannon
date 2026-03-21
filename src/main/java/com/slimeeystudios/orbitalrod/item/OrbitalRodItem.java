@@ -1,16 +1,17 @@
 package com.slimeeystudios.orbitalrod.item;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -40,11 +41,11 @@ public class OrbitalRodItem extends FishingRodItem {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
 
-        if (user.getItemCooldownManager().isCoolingDown(this)) {
-            return TypedActionResult.fail(stack);
+        if (user.getItemCooldownManager().isCoolingDown(stack)) {
+            return ActionResult.FAIL;
         }
 
         HitResult hitResult = user.raycast(MAX_TARGET_DISTANCE, 0.0F, false);
@@ -53,26 +54,21 @@ public class OrbitalRodItem extends FishingRodItem {
             return super.use(world, user, hand);
         }
 
-        if (!world.isClient) {
+        if (!world.isClient()) {
             BlockPos targetPos = ((BlockHitResult) hitResult).getBlockPos();
             Vec3d targetCenter = Vec3d.ofCenter(targetPos);
             ServerWorld serverWorld = (ServerWorld) world;
 
             spawnActivationParticles(serverWorld, targetCenter);
             spawnOrbitalStrike(serverWorld, targetCenter, user);
-            serverWorld.playSound(null, targetPos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.2F, 0.6F);
+            serverWorld.playSound(null, targetPos, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.PLAYERS, 1.2F, 0.6F);
 
-            stack.damage(1, user, p -> p.sendToolBreakStatus(hand));
+            stack.damage(1, (LivingEntity) user, EquipmentSlot.MAINHAND);
         }
 
-        user.getItemCooldownManager().set(this, USE_COOLDOWN_TICKS);
+        user.getItemCooldownManager().set(stack, USE_COOLDOWN_TICKS);
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        return TypedActionResult.success(stack, world.isClient());
-    }
-
-    @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return ingredient.isOf(Items.NETHER_STAR) || super.canRepair(stack, ingredient);
+        return ActionResult.SUCCESS;
     }
 
     private void spawnActivationParticles(ServerWorld world, Vec3d targetCenter) {

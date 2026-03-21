@@ -4,8 +4,12 @@
     "icon": {
       "id": "minecraft:nether_star"
     },
-    "title": "Orbital Strike",
-    "description": "Obtain a Nether Star and unlock the Orbital TNT Rod recipe.",
+    "title": {
+      "text": "Orbital Strike"
+    },
+    "description": {
+      "text": "Obtain a Nether Star and unlock the Orbital TNT Rod recipe."
+    },
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,

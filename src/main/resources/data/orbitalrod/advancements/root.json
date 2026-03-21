@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "id": "orbitalrod:orbital_tnt_rod"
+    },
+    "title": "Orbital Rod",
+    "description": "Progression for the Orbital TNT Rod.",
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

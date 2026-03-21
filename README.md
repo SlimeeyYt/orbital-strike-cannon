@@ -1,14 +1,14 @@
 # OrbitalRod
 
-`OrbitalRod` is a Fabric mod for **Minecraft 1.20.1** on **Java 17** by **Slimeey Studios**.
+`OrbitalRod` is a Fabric mod for **Minecraft 1.21.11** on **Java 21** by **Slimeey Studios**.
 
 ## Dependencies
 - `fabric-loader` (required)
 - `fabric-api` (required)
 
 This project currently targets:
-- `net.fabricmc:fabric-loader:0.16.10`
-- `net.fabricmc.fabric-api:fabric-api:0.92.5+1.20.1`
+- `net.fabricmc:fabric-loader:0.18.4`
+- `net.fabricmc.fabric-api:fabric-api:0.139.4+1.21.11`
 
 ## Features
 - `Orbital TNT Rod` custom item
@@ -38,7 +38,7 @@ Arrange items in a crafting table as:
 ## Development Setup
 ```powershell
 cd "D:\Slimeey Studios\orbital-strike"
-$env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
+$env:JAVA_HOME = "C:\Path\To\JDK-21"
 .\gradlew.bat build
 .\gradlew.bat configureLaunch configureClientLaunch
 ```
@@ -46,14 +46,14 @@ $env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
 ## Run Minecraft Client (dev)
 ```powershell
 cd "D:\Slimeey Studios\orbital-strike"
-$env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
+$env:JAVA_HOME = "C:\Path\To\JDK-21"
 .\gradlew.bat runClient
 ```
 
 ## Run Minecraft Server (dev)
 ```powershell
 cd "D:\Slimeey Studios\orbital-strike"
-$env:JAVA_HOME = "C:\Users\naman\.jdks\temurin-17.0.18"
+$env:JAVA_HOME = "C:\Path\To\JDK-21"
 Set-Content -Path ".\run\server\eula.txt" -Value "eula=true"
 .\gradlew.bat runServer
 ```
