@@ -1,6 +1,6 @@
 # OrbitalRod
 
-`OrbitalRod` is a Fabric mod for **Minecraft 1.21.1** on **Java 17** by **Slimeey Studios**.
+`OrbitalRod` is a Fabric mod for **Minecraft 1.21.11** on **Java 17** by **Slimeey Studios**.
 
 ## Dependencies
 - `fabric-loader` (required)
