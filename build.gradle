@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.13.3'
+    id 'net.fabricmc.fabric-loom' version '1.15.5'
     id 'maven-publish'
 }
 
@@ -16,9 +16,8 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 loom {
@@ -40,21 +39,36 @@ loom {
 }
 
 processResources {
-    inputs.property 'version', project.version
+    def resourceProps = [
+            version         : project.version,
+            loader_version  : project.loader_version,
+            minecraft_version: project.minecraft_version,
+            java_version    : project.java_version,
+            fabric_version  : project.fabric_version
+    ]
+
+    inputs.properties(resourceProps)
 
     filesMatching('fabric.mod.json') {
-        expand version: project.version
+        expand(resourceProps)
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = project.java_version as int
 }
 
 java {
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.java_version as int)
+    }
+    sourceCompatibility = JavaVersion.toVersion(project.java_version)
+    targetCompatibility = JavaVersion.toVersion(project.java_version)
+}
+
+tasks.matching { it.name == 'remapJar' || it.name == 'remapSourcesJar' }.configureEach {
+    enabled = false
 }
 
 publishing {
