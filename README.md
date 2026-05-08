@@ -32,7 +32,8 @@ Arrange items in a crafting table as:
 - `T` = `minecraft:tnt`
 - `R` = `minecraft:fishing_rod`
 
+To disable crafting, set `enableCraftingRecipe=false` in `config/orbitalrod.properties`.
+
 ## Advancement
 - **Orbital Strike**: obtain a Nether Star to unlock the Orbital TNT Rod recipe.
-
 
