@@ -20,24 +20,22 @@ public final class ModConfig {
 
     public static void load() {
         Path configPath = FabricLoader.getInstance().getConfigDir().resolve(FILE_NAME);
-        Properties properties = new Properties();
-        properties.setProperty(ENABLE_CRAFTING_RECIPE, Boolean.toString(craftingRecipeEnabled));
-
         if (Files.notExists(configPath)) {
-            save(properties, configPath);
+            saveDefault(configPath);
         }
 
+        Properties properties = new Properties();
         try (InputStream inputStream = Files.newInputStream(configPath)) {
             properties.load(inputStream);
-            String value = properties.getProperty(ENABLE_CRAFTING_RECIPE, "true");
-            craftingRecipeEnabled = !"false".equalsIgnoreCase(value.trim());
+            String value = properties.getProperty(ENABLE_CRAFTING_RECIPE);
+            craftingRecipeEnabled = value == null || Boolean.parseBoolean(value.trim());
         } catch (IOException exception) {
             OrbitalRodMod.LOGGER.warn("Failed to load config file {}, using defaults.", configPath, exception);
             craftingRecipeEnabled = true;
         }
     }
 
-    private static void save(Properties properties, Path configPath) {
+    private static void saveDefault(Path configPath) {
         try {
             Files.createDirectories(configPath.getParent());
         } catch (IOException exception) {
@@ -45,6 +43,8 @@ public final class ModConfig {
             return;
         }
 
+        Properties properties = new Properties();
+        properties.setProperty(ENABLE_CRAFTING_RECIPE, Boolean.toString(craftingRecipeEnabled));
         try (OutputStream outputStream = Files.newOutputStream(configPath)) {
             properties.store(outputStream, "OrbitalRod configuration");
         } catch (IOException exception) {
