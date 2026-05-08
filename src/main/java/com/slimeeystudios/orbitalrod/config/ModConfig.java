@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.Properties;
 
 public final class ModConfig {
@@ -28,7 +29,17 @@ public final class ModConfig {
         try (InputStream inputStream = Files.newInputStream(configPath)) {
             properties.load(inputStream);
             String value = properties.getProperty(ENABLE_CRAFTING_RECIPE);
-            craftingRecipeEnabled = value == null || Boolean.parseBoolean(value.trim());
+            if (value == null) {
+                craftingRecipeEnabled = true;
+            } else {
+                String normalized = value.trim().toLowerCase(Locale.ROOT);
+                if (!normalized.equals("true") && !normalized.equals("false")) {
+                    OrbitalRodMod.LOGGER.warn("Invalid value '{}' for {} in {}. Using default true.", value, ENABLE_CRAFTING_RECIPE, configPath);
+                    craftingRecipeEnabled = true;
+                } else {
+                    craftingRecipeEnabled = Boolean.parseBoolean(normalized);
+                }
+            }
         } catch (IOException exception) {
             OrbitalRodMod.LOGGER.warn("Failed to load config file {}, using defaults.", configPath, exception);
             craftingRecipeEnabled = true;
