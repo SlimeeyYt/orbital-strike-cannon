@@ -55,7 +55,7 @@ public final class ModConfig {
         }
 
         Properties properties = new Properties();
-        properties.setProperty(ENABLE_CRAFTING_RECIPE, Boolean.toString(craftingRecipeEnabled));
+        properties.setProperty(ENABLE_CRAFTING_RECIPE, "true");
         try (OutputStream outputStream = Files.newOutputStream(configPath)) {
             properties.store(outputStream, "OrbitalRod configuration");
         } catch (IOException exception) {

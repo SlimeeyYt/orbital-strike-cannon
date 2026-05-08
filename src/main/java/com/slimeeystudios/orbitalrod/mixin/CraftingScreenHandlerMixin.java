@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CraftingScreenHandler.class)
 public class CraftingScreenHandlerMixin {
     @Inject(method = "updateResult", at = @At("TAIL"))
-    private static void orbitalrod$clearOrbitalRecipeResultWhenDisabled(ScreenHandler handler, World world, PlayerEntity player, CraftingInventory craftingInventory, CraftingResultInventory resultInventory, CallbackInfo ci) {
+    private static void orbitalrod$clearOrbitalCraftingResultWhenDisabled(ScreenHandler handler, World world, PlayerEntity player, CraftingInventory craftingInventory, CraftingResultInventory resultInventory, CallbackInfo ci) {
         if (world.isClient || ModConfig.isCraftingRecipeEnabled()) {
             return;
         }
