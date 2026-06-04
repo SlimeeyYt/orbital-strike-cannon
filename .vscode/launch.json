@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Client",
+      "presentation": {
+        "group": "Mod Development - orbital-strike",
+        "order": 0
+      },
+      "projectName": "orbital-strike",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\Slimeey Studios\\orbital-strike\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\Slimeey Studios\\orbital-strike\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dorbitalrod%%D:\\Slimeey Studios\\orbital-strike\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Server",
+      "presentation": {
+        "group": "Mod Development - orbital-strike",
+        "order": 1
+      },
+      "projectName": "orbital-strike",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\Slimeey Studios\\orbital-strike\\build\\moddev\\serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\Slimeey Studios\\orbital-strike\\build\\moddev\\serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dorbitalrod%%D:\\Slimeey Studios\\orbital-strike\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[11,)"
+license="All rights reserved"
+
+[[mods]]
+modId="orbitalrod"
+version="${file.jarVersion}"
+displayName="OrbitalRod"
+description='''
+OrbitalRod
+'''

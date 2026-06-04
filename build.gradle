@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.15.5'
+    id 'net.neoforged.moddev' version '2.0.141'
     id 'maven-publish'
 }
 
@@ -14,61 +14,26 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(project.java_version as int)
 
-loom {
-    enableModProvidedJavadoc.set(false)
+neoForge {
+    version = project.neo_version
 
     runs {
         client {
             client()
-            configName = "Fabric Client"
-            runDir = "run/client"
         }
         server {
             server()
-            configName = "Fabric Server"
-            runDir = "run/server"
-            vmArg "-Dfabric.log.level=info"
+            programArgument '--nogui'
         }
     }
-}
 
-processResources {
-    def resourceProps = [
-            version         : project.version,
-            loader_version  : project.loader_version,
-            minecraft_version: project.minecraft_version,
-            java_version    : project.java_version,
-            fabric_version  : project.fabric_version
-    ]
-
-    inputs.properties(resourceProps)
-
-    filesMatching('fabric.mod.json') {
-        expand(resourceProps)
+    mods {
+        "${project.mod_id}" {
+            sourceSet sourceSets.main
+        }
     }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    it.options.release = project.java_version as int
-}
-
-java {
-    withSourcesJar()
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(project.java_version as int)
-    }
-    sourceCompatibility = JavaVersion.toVersion(project.java_version)
-    targetCompatibility = JavaVersion.toVersion(project.java_version)
-}
-
-tasks.matching { it.name == 'remapJar' || it.name == 'remapSourcesJar' }.configureEach {
-    enabled = false
 }
 
 publishing {
