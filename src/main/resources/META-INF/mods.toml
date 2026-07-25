@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[64,)"
+license="All rights reserved"
+
+[[dependencies.orbitalrod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[64.0.8,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.orbitalrod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[26.1.2,27)"
+    ordering="NONE"
+    side="BOTH"
+
+[[mods]]
+modId="orbitalrod"
+version="${file.jarVersion}"
+displayName="OrbitalRod"
+description='''
+OrbitalRod - Orbital Strike mod for Forge 26.1.2
+'''
