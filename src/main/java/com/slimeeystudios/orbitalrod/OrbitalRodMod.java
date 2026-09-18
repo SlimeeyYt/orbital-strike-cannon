@@ -12,6 +12,8 @@ public class OrbitalRodMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        com.slimeeystudios.orbitalrod.config.ModConfig.load();
+        com.slimeeystudios.orbitalrod.config.ModResourceConditions.register();
         ModItems.register();
         LOGGER.info("OrbitalRod initialized");
     }
