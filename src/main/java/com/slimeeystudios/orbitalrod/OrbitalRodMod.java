@@ -5,6 +5,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraft.resources.Identifier;
+import com.slimeeystudios.orbitalrod.config.ModConfig;
+import com.slimeeystudios.orbitalrod.config.ModResourceConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +26,20 @@ public class OrbitalRodMod {
 
         // Register event listeners
         modEventBus.addListener(this::onClientSetup);
+        modEventBus.addListener(this::onRegister);
+
+        ModConfig.init();
 
         LOGGER.info("OrbitalRod initialized");
     }
 
     private void onClientSetup(final FMLClientSetupEvent event) {
         LOGGER.debug("Client setup for OrbitalRod");
+    }
+
+    private void onRegister(RegisterEvent event) {
+        event.register(NeoForgeRegistries.Keys.CONDITION_CODECS, helper -> {
+            helper.register(Identifier.fromNamespaceAndPath(MOD_ID, "crafting_enabled"), ModResourceConditions.CraftingEnabledCondition.CODEC);
+        });
     }
 }
